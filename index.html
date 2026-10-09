@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cat's Cradle — Hand Strings</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #050508;
+    }
+    #input_video {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+      z-index: 0;
+      filter: brightness(0.45) contrast(1.15) saturate(0.85);
+    }
+    #p5-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    #hint {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+      color: rgba(0, 255, 255, 0.55);
+      text-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    #camera-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(5, 5, 12, 0.92);
+      font-family: system-ui, -apple-system, sans-serif;
+      pointer-events: auto;
+    }
+    #camera-gate[hidden] { display: none; }
+    #camera-gate .panel {
+      max-width: 420px;
+      padding: 28px 32px;
+      border-radius: 16px;
+      border: 1px solid rgba(0, 255, 255, 0.25);
+      box-shadow: 0 0 40px rgba(255, 0, 255, 0.15), inset 0 0 60px rgba(0, 255, 255, 0.04);
+      text-align: center;
+    }
+    #camera-gate h1 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #e8f8ff;
+      margin-bottom: 10px;
+    }
+    #camera-gate p {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: rgba(200, 230, 255, 0.75);
+      margin-bottom: 16px;
+    }
+    #camera-gate .warn {
+      color: #ffb0c8;
+      font-size: 0.82rem;
+      margin-bottom: 14px;
+    }
+    #btn-start-camera {
+      appearance: none;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: #050508;
+      background: linear-gradient(135deg, #00fff0, #ff00dd 55%, #fff000);
+      box-shadow: 0 0 24px rgba(0, 255, 240, 0.35);
+    }
+    #btn-start-camera:hover {
+      filter: brightness(1.08);
+    }
+    #btn-start-camera:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .camera-pick {
+      text-align: left;
+      margin: 8px 0 16px;
+    }
+    .camera-pick label {
+      display: block;
+      font-size: 0.78rem;
+      color: rgba(200, 230, 255, 0.85);
+      margin-bottom: 6px;
+    }
+    #camera-device {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 255, 255, 0.35);
+      background: rgba(0, 0, 0, 0.35);
+      color: #e8f8ff;
+      font-size: 0.88rem;
+    }
+    #btn-refresh-cameras {
+      margin-top: 10px;
+      width: 100%;
+      appearance: none;
+      border: 1px solid rgba(0, 255, 255, 0.4);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: #9fffe8;
+      background: rgba(0, 255, 255, 0.08);
+    }
+    #btn-refresh-cameras:hover {
+      background: rgba(0, 255, 255, 0.14);
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <video id="input_video" playsinline muted></video>
+  <main id="p5-canvas"></main>
+  <div id="camera-gate">
+    <div class="panel">
+      <h1>Camera access</h1>
+      <p>Browsers require a <strong>click</strong> before turning on the camera. Use <strong>http://localhost</strong> (not a raw file path) so permission can be granted. Choose <strong>MacBook Air</strong>, <strong>LifeCam</strong>, or <strong>iPhone</strong> below; click <strong>Refresh camera list</strong> if names are missing.</p>
+      <p id="gate-secure" class="warn" hidden></p>
+      <p id="gate-error" class="warn" hidden></p>
+      <div class="camera-pick">
+        <label for="camera-device">Camera</label>
+        <select id="camera-device" aria-label="Choose camera">
+          <option value="">Default (system choice)</option>
+        </select>
+        <button type="button" id="btn-refresh-cameras">Refresh camera list</button>
+      </div>
+      <button type="button" id="btn-start-camera">Start camera</button>
+    </div>
+  </div>
+  <p id="hint">Allow camera · Show both hands · Fingertips link with neon strings</p>
+
+  <script>
+(function () {
+  'use strict';
+
+  const FINGERTIPS = [4, 8, 12, 16, 20];
+  const VIDEO_W = 640;
+  const VIDEO_H = 480;
+
+  /** @type {HTMLVideoElement} */
+  let videoEl;
+  /** Latest MediaPipe results — written from onResults, read in p5 draw */
+  let latest = {
+    left: null,
+    right: null,
+  };
+
+  /** Smoothed string anchor points for elastic feel [fingerIdx][0|1] = {x,y} */
+  let stringSmooth = FINGERTIPS.map(() => [
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+  ]);
+  let stringsSnapped = false;
+
+  function normToCanvas(lm, cw, ch) {
+    return { x: lm.x * cw, y: lm.y * ch };
+  }
+
+  function classifyHands(multiLandmarks, multiHandedness) {
+    const out = { left: null, right: null };
+    if (!multiLandmarks || !multiHandedness) return out;
+    for (let i = 0; i < multiLandmarks.length; i++) {
+      const label = multiHandedness[i].label;
+      const landmarks = multiLandmarks[i];
+      if (label === 'Left') out.left = landmarks;
+      else if (label === 'Right') out.right = landmarks;
+    }
+    return out;
+  }
+
+  function distance(a, b) {
+    const dx = a.x - b.x;
+    const dy = a.y - b.y;
+    return Math.hypot(dx, dy);
+  }
+
+  /** Cyan → magenta → yellow by t in [0,1] */
+  function gradientColor(t) {
+    t = Math.max(0, Math.min(1, t));
+    let r, g, b;
+    if (t < 0.5) {
+      const u = t * 2;
+      r = Math.round(0 + (255 - 0) * u);
+      g = Math.round(255 + (0 - 255) * u);
+      b = Math.round(255 + (255 - 255) * u);
+    } else {
+      const u = (t - 0.5) * 2;
+      r = Math.round(255 + (255 - 255) * u);
+      g = Math.round(0 + (255 - 0) * u);
+      b = Math.round(255 + (0 - 255) * u);
+    }
+    return { r, g, b };
+  }
+
+  function springToward(cur, target, stiffness, damping) {
+    if (!cur._vx) cur._vx = 0;
+    if (!cur._vy) cur._vy = 0;
+    const ax = (target.x - cur.x) * stiffness;
+    const ay = (target.y - cur.y) * stiffness;
+    cur._vx = (cur._vx + ax) * damping;
+    cur._vy = (cur._vy + ay) * damping;
+    cur.x += cur._vx;
+    cur.y += cur._vy;
+  }
+
+  let hands = null;
+  let frameLoopRunning = false;
+  let lastVideoTime = -1;
+
+  function initMediaPipe() {
+    videoEl = document.getElementById('input_video');
+
+    hands = new Hands({
+      locateFile: (file) =>
+        `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`,
+    });
+
+    hands.setOptions({
+      maxNumHands: 2,
+      modelComplexity: 1,
+      minDetectionConfidence: 0.65,
+      minTrackingConfidence: 0.5,
+      selfieMode: true,
+    });
+
+    hands.onResults((results) => {
+      const { left, right } = classifyHands(
+        results.multiHandLandmarks,
+        results.multiHandedness
+      );
+      latest.left = left;
+      latest.right = right;
+    });
+
+    const gate = document.getElementById('camera-gate');
+    const btn = document.getElementById('btn-start-camera');
+    const errEl = document.getElementById('gate-error');
+    const secureEl = document.getElementById('gate-secure');
+    const cameraSelect = document.getElementById('camera-device');
+    const btnRefreshCams = document.getElementById('btn-refresh-cameras');
+
+    if (!window.isSecureContext) {
+      secureEl.hidden = false;
+      secureEl.textContent =
+        'This page is not in a secure context. Serve the folder over http://localhost (e.g. python3 -m http.server 8765) and open that URL.';
+      btn.disabled = true;
+      btnRefreshCams.disabled = true;
+      return;
+    }
+
+    function stopCurrentStream() {
+      if (!videoEl || !videoEl.srcObject) return;
+      videoEl.srcObject.getTracks().forEach(function (t) { t.stop(); });
+      videoEl.srcObject = null;
+    }
+
+    function mergeEnumerateWithLiveTrack(videos) {
+      if (!videoEl || !videoEl.srcObject || !videoEl.srcObject.getVideoTracks) return videos;
+      var out = videos.slice();
+      videoEl.srcObject.getVideoTracks().forEach(function (t) {
+        var settings = t.getSettings ? t.getSettings() : {};
+        var id = String(settings.deviceId || '').trim();
+        if (!id) return;
+        var exists = out.some(function (d) { return String(d.deviceId || '').trim() === id; });
+        if (exists) return;
+        out.push({
+          kind: 'videoinput',
+          deviceId: id,
+          label: String(t.label || '').trim() || 'Camera',
+        });
+      });
+      return out;
+    }
+
+    function cameraConstraintAttempts(deviceId) {
+      var id = String(deviceId || '').trim();
+      var attempts = [];
+      if (id) {
+        attempts.push({
+          video: { deviceId: { exact: id }, width: { ideal: VIDEO_W }, height: { ideal: VIDEO_H } },
+          audio: false
+        });
+        attempts.push({
+          video: { deviceId: { ideal: id }, width: { ideal: VIDEO_W }, height: { ideal: VIDEO_H } },
+          audio: false
+        });
+        attempts.push({ video: { deviceId: { ideal: id } }, audio: false });
+      }
+      attempts.push({
+        video: { width: { ideal: VIDEO_W }, height: { ideal: VIDEO_H }, facingMode: { ideal: 'user' } },
+        audio: false
+      });
+      attempts.push({ video: true, audio: false });
+      var seen = Object.create(null);
+      return attempts.filter(function (c) {
+        var key = JSON.stringify(c);
+        if (seen[key]) return false;
+        seen[key] = true;
+        return true;
+      });
+    }
+
+    function waitForVideoReady(timeoutMs) {
+      timeoutMs = typeof timeoutMs === 'number' ? timeoutMs : 7000;
+      return new Promise(function (resolve, reject) {
+        if (videoEl.videoWidth > 0 && videoEl.videoHeight > 0) {
+          resolve();
+          return;
+        }
+        var started = Date.now();
+        var iv = setInterval(check, 50);
+        videoEl.addEventListener('loadeddata', check);
+        videoEl.addEventListener('loadedmetadata', check);
+        function cleanup() {
+          clearInterval(iv);
+          videoEl.removeEventListener('loadeddata', check);
+          videoEl.removeEventListener('loadedmetadata', check);
+        }
+        function check() {
+          if (videoEl.videoWidth > 0 && videoEl.videoHeight > 0) {
+            cleanup();
+            resolve();
+            return;
+          }
+          if (Date.now() - started > timeoutMs) {
+            cleanup();
+            reject(new Error('Camera opened but no video frames appeared.'));
+          }
+        }
+      });
+    }
+
+    async function startStreamWithFallback(deviceId) {
+      var attempts = cameraConstraintAttempts(deviceId);
+      var lastError = null;
+      for (var i = 0; i < attempts.length; i++) {
+        try {
+          return await navigator.mediaDevices.getUserMedia(attempts[i]);
+        } catch (e) {
+          var name = e && e.name ? e.name : '';
+          if (name === 'NotAllowedError' || name === 'PermissionDeniedError') throw e;
+          lastError = e;
+          if (
+            name === 'NotFoundError' ||
+            name === 'DevicesNotFoundError' ||
+            name === 'OverconstrainedError' ||
+            name === 'NotReadableError' ||
+            name === 'TrackStartError' ||
+            name === 'AbortError'
+          ) {
+            continue;
+          }
+        }
+      }
+      throw (lastError || new Error('No usable camera stream found.'));
+    }
+
+    async function refreshCameraList() {
+      var list = await navigator.mediaDevices.enumerateDevices();
+      var videos = list.filter(function (d) { return d.kind === 'videoinput'; });
+      var noLabels = videos.length && videos.every(function (d) { return !d.label; });
+      var hasIds = videos.some(function (d) { return String(d.deviceId || '').trim(); });
+      var streamActive = Boolean(
+        videoEl &&
+        videoEl.srcObject &&
+        videoEl.srcObject.getVideoTracks &&
+        videoEl.srcObject.getVideoTracks().length
+      );
+      if (!streamActive && (noLabels || !hasIds)) {
+        try {
+          var tmp = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+          tmp.getTracks().forEach(function (t) { t.stop(); });
+          await new Promise(function (r) { setTimeout(r, 120); });
+        } catch (e) { /* user may deny; still show opaque ids */ }
+        list = await navigator.mediaDevices.enumerateDevices();
+      }
+      var vids = list.filter(function (d) { return d.kind === 'videoinput'; });
+      vids = mergeEnumerateWithLiveTrack(vids);
+      var keep = cameraSelect.value;
+      cameraSelect.innerHTML = '';
+      var opt0 = document.createElement('option');
+      opt0.value = '';
+      opt0.textContent = 'Default (system choice)';
+      cameraSelect.appendChild(opt0);
+      var seenIds = Object.create(null);
+      var idx = 0;
+      vids.forEach(function (d) {
+        var id = String(d.deviceId || '').trim();
+        if (!id || seenIds[id]) return;
+        seenIds[id] = true;
+        idx += 1;
+        var o = document.createElement('option');
+        o.value = id;
+        o.textContent = d.label || ('Camera ' + idx);
+        cameraSelect.appendChild(o);
+      });
+      if (keep && Array.prototype.some.call(cameraSelect.options, function (o) { return o.value === keep; })) {
+        cameraSelect.value = keep;
+      }
+    }
+
+    btnRefreshCams.addEventListener('click', function () {
+      refreshCameraList().catch(function (e) { console.warn(e); });
+    });
+    refreshCameraList().catch(function (e) { console.warn(e); });
+    if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
+      navigator.mediaDevices.addEventListener('devicechange', function () {
+        refreshCameraList().catch(function (e) { console.warn(e); });
+      });
+    } else if (navigator.mediaDevices) {
+      navigator.mediaDevices.ondevicechange = function () {
+        refreshCameraList().catch(function (e) { console.warn(e); });
+      };
+    }
+
+    async function pumpFrame() {
+      if (!frameLoopRunning || !hands) return;
+      if (!videoEl.paused && videoEl.currentTime !== lastVideoTime) {
+        lastVideoTime = videoEl.currentTime;
+        try {
+          await hands.send({ image: videoEl });
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      requestAnimationFrame(pumpFrame);
+    }
+
+    btn.addEventListener('click', async () => {
+      errEl.hidden = true;
+      btn.disabled = true;
+      try {
+        var choice = cameraSelect.value || '';
+        stopCurrentStream();
+        await new Promise(function (r) { setTimeout(r, 80); });
+        const stream = await startStreamWithFallback(choice);
+        videoEl.srcObject = stream;
+        videoEl.muted = true;
+        videoEl.playsInline = true;
+        videoEl.setAttribute('playsinline', '');
+        await videoEl.play();
+        await waitForVideoReady(7000);
+        gate.setAttribute('hidden', '');
+        frameLoopRunning = true;
+        lastVideoTime = -1;
+        requestAnimationFrame(pumpFrame);
+        refreshCameraList().catch(function () {});
+      } catch (e) {
+        stopCurrentStream();
+        const name = e && e.name ? e.name : 'Error';
+        let msg =
+          'Could not start the camera. ';
+        if (name === 'NotAllowedError' || name === 'PermissionDeniedError') {
+          msg +=
+            'Permission was blocked or denied. In the address bar, allow camera for this site. On macOS: System Settings → Privacy & Security → Camera → enable your browser. Then reload and click Start camera again.';
+        } else if (name === 'NotFoundError' || name === 'DevicesNotFoundError') {
+          msg += 'No camera was found.';
+        } else if (name === 'OverconstrainedError') {
+          msg += 'The selected camera settings were not available. Refresh camera list and try again.';
+        } else if (name === 'NotReadableError' || name === 'TrackStartError') {
+          msg +=
+            'The camera may be in use by another app. Close other apps using the camera and try again.';
+        } else {
+          msg += String(e.message || e);
+        }
+        errEl.textContent = msg;
+        errEl.hidden = false;
+        btn.disabled = false;
+      }
+    });
+  }
+
+  const sketch = (p) => {
+    p.setup = () => {
+      const c = p.createCanvas(p.windowWidth, p.windowHeight);
+      c.parent('p5-canvas');
+      p.pixelDensity(Math.min(2, window.devicePixelRatio || 1));
+    };
+
+    p.windowResized = () => {
+      p.resizeCanvas(p.windowWidth, p.windowHeight);
+    };
+
+    p.draw = () => {
+      p.clear();
+
+      const cw = p.width;
+      const ch = p.height;
+      const ctx = p.drawingContext;
+
+      const left = latest.left;
+      const right = latest.right;
+
+      const drawAllJoints = (landmarks, hueShift) => {
+        if (!landmarks) return;
+        for (let i = 0; i < landmarks.length; i++) {
+          const isTip = FINGERTIPS.includes(i);
+          const lm = landmarks[i];
+          const { x, y } = normToCanvas(lm, cw, ch);
+          const c = hueShift
+            ? `hsla(${180 + hueShift + i * 8}, 100%, 65%, 0.95)`
+            : 'rgba(0, 255, 255, 0.95)';
+          ctx.save();
+          ctx.shadowBlur = isTip ? 26 : 16;
+          ctx.shadowColor = isTip ? 'rgba(255, 0, 255, 0.75)' : 'rgba(0, 255, 255, 0.5)';
+          ctx.fillStyle = c;
+          ctx.beginPath();
+          ctx.arc(x, y, isTip ? 9 : 5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      };
+
+      drawAllJoints(left, 0);
+      drawAllJoints(right, 40);
+
+      if (left && right) {
+        let sumDist = 0;
+        const pairs = [];
+        for (let fi = 0; fi < FINGERTIPS.length; fi++) {
+          const idx = FINGERTIPS[fi];
+          const a = normToCanvas(left[idx], cw, ch);
+          const b = normToCanvas(right[idx], cw, ch);
+          sumDist += distance(a, b);
+          pairs.push({ fi, a, b });
+        }
+        if (!stringsSnapped) {
+          for (const { fi, a, b } of pairs) {
+            stringSmooth[fi][0].x = a.x;
+            stringSmooth[fi][0].y = a.y;
+            stringSmooth[fi][1].x = b.x;
+            stringSmooth[fi][1].y = b.y;
+            stringSmooth[fi][0]._vx = stringSmooth[fi][0]._vy = 0;
+            stringSmooth[fi][1]._vx = stringSmooth[fi][1]._vy = 0;
+          }
+          stringsSnapped = true;
+        }
+        const avgDist = sumDist / pairs.length;
+        const dNorm = Math.min(1, avgDist / (Math.min(cw, ch) * 0.55));
+        const col = gradientColor(dNorm);
+        const lineW = p.map(dNorm, 0, 1, 3.2, 1.2);
+        const stiffness = 0.18;
+        const damping = 0.72;
+
+        for (const { fi, a, b } of pairs) {
+          springToward(stringSmooth[fi][0], a, stiffness, damping);
+          springToward(stringSmooth[fi][1], b, stiffness, damping);
+          const s0 = stringSmooth[fi][0];
+          const s1 = stringSmooth[fi][1];
+
+          const midx = (s0.x + s1.x) * 0.5;
+          const midy = (s0.y + s1.y) * 0.5;
+          const sag = 8 + dNorm * 22;
+          const cpx = midx;
+          const cpy = midy + sag;
+
+          const grad = ctx.createLinearGradient(s0.x, s0.y, s1.x, s1.y);
+          grad.addColorStop(0, `rgba(${col.r}, ${col.g}, ${col.b}, 0.35)`);
+          grad.addColorStop(0.5, `rgba(255, 255, 100, 0.85)`);
+          grad.addColorStop(1, `rgba(${255 - col.r}, ${255 - col.g}, ${255 - col.b}, 0.35)`);
+
+          ctx.save();
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = lineW;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.shadowBlur = 18 + (1 - dNorm) * 12;
+          ctx.shadowColor = `rgba(${col.r}, ${col.g}, ${col.b}, 0.9)`;
+          ctx.beginPath();
+          ctx.moveTo(s0.x, s0.y);
+          ctx.quadraticCurveTo(cpx, cpy, s1.x, s1.y);
+          ctx.stroke();
+          ctx.shadowBlur = 10;
+          ctx.lineWidth = lineW * 0.35;
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.55)';
+          ctx.stroke();
+          ctx.restore();
+        }
+      } else {
+        stringsSnapped = false;
+        for (let fi = 0; fi < FINGERTIPS.length; fi++) {
+          stringSmooth[fi][0]._vx = stringSmooth[fi][0]._vy = 0;
+          stringSmooth[fi][1]._vx = stringSmooth[fi][1]._vy = 0;
+        }
+      }
+    };
+  };
+
+  window.addEventListener('load', () => {
+    initMediaPipe();
+    new p5(sketch);
+  });
+})();
+  </script>
+</body>
+</html>

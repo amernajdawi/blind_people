@@ -1,0 +1,477 @@
+* {
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #070712;
+  color: #e6f4ff;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.45;
+}
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 28px 8px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.12);
+}
+h1 {
+  margin: 0 0 6px;
+  font-size: 1.35rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+.sub {
+  margin: 0;
+  font-size: 0.88rem;
+  color: rgba(200, 230, 255, 0.65);
+}
+.pill {
+  font-size: 0.78rem;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 0, 200, 0.12);
+  border: 1px solid rgba(255, 0, 200, 0.35);
+  color: #ffc8ef;
+  align-self: center;
+}
+.pill.ok {
+  background: rgba(0, 255, 200, 0.1);
+  border-color: rgba(0, 255, 200, 0.35);
+  color: #9fffe8;
+}
+.pill.bad {
+  background: rgba(255, 80, 80, 0.12);
+  border-color: rgba(255, 120, 120, 0.4);
+  color: #ffb4b4;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding: 20px 28px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+.card {
+  background: linear-gradient(160deg, rgba(20, 24, 40, 0.95), rgba(10, 12, 22, 0.98));
+  border: 1px solid rgba(0, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 18px 18px 20px;
+  box-shadow: 0 0 40px rgba(0, 200, 255, 0.06);
+}
+.card.wide {
+  grid-column: 1 / -1;
+}
+.card h2 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+}
+.camera-bar {
+  margin-bottom: 12px;
+}
+.cam-label {
+  display: block;
+  font-size: 0.78rem;
+  color: rgba(200, 230, 255, 0.75);
+  margin-bottom: 6px;
+}
+.cam-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+#camera-device {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.35);
+  color: #e8f8ff;
+  font-size: 0.88rem;
+}
+button.tertiary {
+  color: #9fffe8;
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid rgba(0, 255, 255, 0.35);
+  padding: 10px 14px;
+  font-size: 0.85rem;
+}
+button.tertiary:hover {
+  background: rgba(0, 255, 255, 0.16);
+}
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #111;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+#cam {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  align-items: center;
+}
+.row.files {
+  align-items: stretch;
+}
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #050508;
+  background: linear-gradient(120deg, #00fff0, #d400ff 60%, #ffe600);
+}
+button.secondary {
+  color: #eaf8ff;
+  background: rgba(0, 255, 255, 0.12);
+  border: 1px solid rgba(0, 255, 255, 0.35);
+}
+button.ghost {
+  color: rgba(230, 244, 255, 0.85);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.file {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: rgba(230, 244, 255, 0.75);
+}
+.file input {
+  max-width: 220px;
+}
+.hint, .small {
+  font-size: 0.82rem;
+  color: rgba(200, 220, 240, 0.6);
+  margin: 12px 0 0;
+}
+.live-opt {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(0, 60, 80, 0.2);
+  border: 1px solid rgba(0, 255, 240, 0.15);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: rgba(200, 230, 255, 0.88);
+  cursor: pointer;
+}
+.live-opt input {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+.gemma-card.is-listening .gemma-live-badge {
+  background: rgba(0, 255, 200, 0.22);
+  border-color: rgba(0, 255, 200, 0.65);
+}
+#btn-live-toggle.is-on {
+  border-color: rgba(255, 120, 220, 0.65);
+  box-shadow: 0 0 12px rgba(255, 100, 200, 0.2);
+}
+.out {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 220px;
+  overflow: auto;
+}
+.out.json {
+  max-height: 320px;
+}
+.prompt-area {
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.35);
+  color: #e8f8ff;
+  font-size: 0.9rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 72px;
+}
+.prompt-area::placeholder {
+  color: rgba(200, 230, 255, 0.4);
+}
+.sub a {
+  color: #7df9ff;
+  text-decoration: underline;
+}
+.sub code {
+  font-size: 0.82em;
+  color: rgba(180, 255, 230, 0.9);
+}
+.out.llm-out {
+  max-height: 280px;
+  white-space: pre-wrap;
+}
+
+/* —— Gemma “live” presence —— */
+.gemma-card {
+  position: relative;
+  overflow: hidden;
+}
+.gemma-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(130deg, rgba(0, 255, 240, 0.15), rgba(255, 0, 200, 0.12), rgba(255, 230, 0, 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.65;
+}
+.gemma-card.is-active::before {
+  opacity: 1;
+  animation: gemma-border-glow 2.4s ease-in-out infinite;
+}
+@keyframes gemma-border-glow {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+.gemma-live {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.gemma-orb-wrap {
+  flex-shrink: 0;
+}
+.gemma-orb {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: conic-gradient(from 200deg, #00fff0, #d400ff, #ffe600, #00fff0);
+  box-shadow:
+    0 0 20px rgba(0, 255, 240, 0.35),
+    inset 0 0 14px rgba(255, 255, 255, 0.25);
+  animation: gemma-orb-idle 5s ease-in-out infinite;
+}
+.gemma-card.is-looking .gemma-orb,
+.gemma-card.is-streaming .gemma-orb {
+  animation: gemma-orb-focus 1.1s ease-in-out infinite;
+}
+.gemma-card.is-voice .gemma-orb {
+  animation: gemma-orb-voice 0.55s ease-in-out infinite;
+}
+@keyframes gemma-orb-idle {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.04); filter: brightness(1.08); }
+}
+@keyframes gemma-orb-focus {
+  0%, 100% { box-shadow: 0 0 24px rgba(255, 0, 200, 0.45); transform: scale(1); }
+  50% { box-shadow: 0 0 40px rgba(0, 255, 240, 0.55); transform: scale(1.06); }
+}
+@keyframes gemma-orb-voice {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); filter: brightness(1.12); }
+}
+.gemma-head {
+  min-width: 0;
+  flex: 1;
+}
+.gemma-title {
+  margin: 0 0 4px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.gemma-live-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(0, 255, 200, 0.15);
+  border: 1px solid rgba(0, 255, 200, 0.45);
+  color: #9fffd8;
+  animation: gemma-badge-pulse 2s ease-in-out infinite;
+}
+.gemma-card.is-active .gemma-live-badge {
+  background: rgba(255, 0, 200, 0.18);
+  border-color: rgba(255, 120, 220, 0.55);
+  color: #ffc8ef;
+}
+@keyframes gemma-badge-pulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+.gemma-status {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  color: rgba(200, 230, 255, 0.82);
+}
+.gemma-hint {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.gemma-bubble {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  border-left: 3px solid rgba(0, 255, 240, 0.45);
+  background: rgba(0, 40, 50, 0.35);
+}
+.gemma-card.is-streaming .gemma-bubble {
+  border-left-color: rgba(255, 120, 220, 0.65);
+}
+
+.gemma-chat-panel {
+  margin: 14px 0 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(0, 255, 255, 0.12);
+}
+.gemma-chat-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.gemma-chat-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(180, 240, 255, 0.75);
+}
+button.small-btn {
+  padding: 6px 12px;
+  font-size: 0.78rem;
+}
+.gemma-chat-log {
+  max-height: 240px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 4px 2px;
+}
+.gemma-chat-row {
+  max-width: 92%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.gemma-chat-row.user {
+  align-self: flex-end;
+  margin-left: auto;
+  background: rgba(0, 80, 90, 0.45);
+  border: 1px solid rgba(0, 255, 240, 0.22);
+}
+.gemma-chat-row.assistant {
+  align-self: flex-start;
+  background: rgba(60, 20, 70, 0.35);
+  border: 1px solid rgba(255, 120, 220, 0.2);
+}
+.gemma-chat-row.assistant.streaming {
+  opacity: 0.92;
+}
+.gemma-chat-compose {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+.gemma-chat-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.35);
+  color: #e8f8ff;
+  font-size: 0.9rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 44px;
+}
+.gemma-chat-compose .secondary {
+  flex-shrink: 0;
+}
+.walk-nav-dest {
+  width: 100%;
+  max-width: 440px;
+  display: block;
+  margin-top: 4px;
+}
+.walk-nav-actions {
+  margin-top: 10px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #ffe600;
+  outline-offset: 2px;
+}
+
+.hint,
+.small,
+.sub {
+  color: rgba(220, 236, 255, 0.88);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,12 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store
+backend/data/
+
+# Large GTFS extracts / zips (use scripts/download_linz_gtfs.py locally)
+data/linz_gtfs/
+data/linz_sample/austria_stops_sample.zip
+data/linz_sample/austria_stops_sample/

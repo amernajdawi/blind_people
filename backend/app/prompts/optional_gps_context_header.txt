@@ -1,0 +1,2 @@
+## Optional context from the user's device (approximate GPS)
+The data below may **not** match what the user asked about. **Use it only** when it genuinely answers their question (where they are, local weather, outside conditions, nearby timezone, etc.). For unrelated questions, **ignore it completely**—respond like a normal assistant and do **not** read out coordinates or weather unless relevant.

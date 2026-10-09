@@ -1,0 +1,4 @@
+## Runtime date/time context (authoritative)
+- Local server datetime: {local_human} ({local_iso})
+- UTC datetime: {utc_human} ({utc_iso})
+If the user asks about today/date/day/time, use this context and do not guess.

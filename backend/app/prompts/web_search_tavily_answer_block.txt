@@ -1,0 +1,7 @@
+**Tavily synthesized answer** (cross-check snippets below):
+{answer}
+
+---
+
+**Sources**
+

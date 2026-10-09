@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeeingAEye App — Gemma</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>SeeingAEye App</h1>
+      <p class="sub">Webcam + Gemma (Ollama Cloud). <span id="ollama-status"></span></p>
+    </div>
+    <span id="health" class="pill" role="status" aria-live="polite">Checking API…</span>
+  </header>
+
+  <main class="grid">
+    <section class="card" id="app-lock" hidden>
+      <h2>Unlock SeeingAEye</h2>
+      <p class="small">This copy of the app asks for a password before chat, maps, or the glasses connection.</p>
+      <label class="cam-label" for="app-password">Password</label>
+      <input type="password" id="app-password" class="gemma-chat-input walk-nav-dest" autocomplete="current-password" />
+      <div class="row">
+        <button type="button" id="btn-app-unlock">Unlock</button>
+      </div>
+      <p class="small" id="app-lock-status" role="status" aria-live="polite"></p>
+    </section>
+    <section class="card">
+      <h2>Webcam</h2>
+      <div class="camera-bar">
+        <label for="camera-device" class="cam-label">Camera</label>
+        <div class="cam-controls">
+          <select id="camera-device" aria-label="Choose camera">
+            <option value="">Default (system choice)</option>
+          </select>
+          <button type="button" id="btn-refresh-cameras" class="tertiary">Refresh list</button>
+        </div>
+      </div>
+      <div class="stage">
+        <video id="cam" autoplay playsinline muted></video>
+      </div>
+      <div class="row">
+        <button type="button" id="btn-start">Start webcam</button>
+        <button type="button" id="btn-stop-cam" class="secondary">Stop webcam</button>
+        <button type="button" id="btn-check-ahead" class="secondary">Check the path ahead</button>
+      </div>
+      <label class="live-opt">
+        <input type="checkbox" id="blind-assist-auto" checked />
+        <span><strong>Blind assistance routing</strong> — text-only, one snapshot, or a short sampled clip from what you ask (max 9 frames). Turn off for single-frame vision only.</span>
+      </label>
+      <label class="live-opt">
+        <input type="checkbox" id="use-device-location" checked />
+        <span><strong>Use my location</strong> — each grounded chat request sends a <strong>fresh</strong> GPS fix (when you allow it) so maps, nearby places, and directions match your <strong>current</strong> position. Also used for weather and local search when the server is configured.</span>
+      </label>
+      <label class="live-opt">
+        <input type="checkbox" id="live-gemma-autostart" checked />
+        <span>After the camera starts, go <strong>live</strong> — listen, see video, answer aloud (Chrome / Edge works best).</span>
+      </label>
+      <p class="hint">Use <strong>http://localhost:8085</strong> (or your port) so the browser allows camera — plain <code>http://192.168…</code> is often blocked. Tap <strong>Start webcam</strong> and allow camera when prompted.</p>
+    </section>
+
+    <section class="card">
+      <h2>Live walk assist</h2>
+      <p class="small hint">Turn-by-turn cues from your <strong>live GPS</strong> and Google walking routes. While live voice is on you can say “take me to the pharmacy”, “check ahead”, “repeat”, “stop”, or “stop walking”.</p>
+      <label class="cam-label" for="walk-nav-destination">Destination</label>
+      <input type="text" id="walk-nav-destination" class="gemma-chat-input walk-nav-dest" placeholder="e.g. Hauptplatz, Linz" autocomplete="street-address" />
+      <div class="row walk-nav-actions">
+        <button type="button" id="btn-walk-nav-start">Start walk assist</button>
+        <button type="button" id="btn-walk-nav-stop" class="secondary" disabled>Stop</button>
+      </div>
+      <p class="small" id="walk-nav-status" aria-live="polite">—</p>
+    </section>
+
+    <section class="card gemma-card" id="gemma-card">
+      <div class="gemma-live" aria-live="polite">
+        <div class="gemma-orb-wrap">
+          <div class="gemma-orb" id="gemma-orb" aria-hidden="true"></div>
+        </div>
+        <div class="gemma-head">
+          <h2 class="gemma-title">
+            Gemma <span class="gemma-live-badge">live</span>
+            <button type="button" id="btn-live-toggle" class="secondary small-btn" title="Start or stop voice listening">Start live</button>
+          </h2>
+          <p class="gemma-status" id="gemma-status" role="status">Ready — turn on your camera and chat with me.</p>
+        </div>
+      </div>
+      <p class="small gemma-hint">Persona and router prompts live under <code>backend/app/prompts/</code>. Override with <code>OLLAMA_SYSTEM_PROMPT</code> if needed. <a href="https://ollama.com/library/gemma4" target="_blank" rel="noopener">Gemma on Ollama</a>.</p>
+
+      <div class="gemma-chat-panel">
+        <div class="gemma-chat-head">
+          <span class="gemma-chat-label">Conversation</span>
+          <button type="button" id="btn-gemma-clear" class="tertiary small-btn">Clear</button>
+        </div>
+        <div id="gemma-chat-log" class="gemma-chat-log" aria-label="Chat with Gemma"></div>
+        <div class="gemma-chat-compose">
+          <textarea id="gemma-chat-input" class="gemma-chat-input" rows="2" placeholder="Ask anything—plans, code, ideas—or just chat."></textarea>
+          <button type="button" id="btn-gemma-send" class="secondary">Send</button>
+        </div>
+      </div>
+
+      <label class="cam-label" for="llm-prompt">Question about the camera (optional)</label>
+      <textarea id="llm-prompt" class="prompt-area" rows="2" placeholder="What am I holding? Leave blank for a general description."></textarea>
+      <div class="row">
+        <button type="button" id="btn-llm" class="secondary">Ask with camera</button>
+        <button type="button" id="btn-gemma-speak" class="tertiary" title="Read last reply aloud">Read aloud</button>
+        <button type="button" id="btn-gemma-stop-speech" class="ghost" hidden>Stop voice</button>
+      </div>
+      <div id="out-llm" class="out llm-out gemma-bubble" role="log">Last camera reply appears here.</div>
+    </section>
+
+    <section class="card wide">
+      <h2>Last API response</h2>
+      <pre id="out-json" class="out json">—</pre>
+    </section>
+  </main>
+
+  <script type="module" src="/app.js?v=cam-preview-1"></script>
+</body>
+</html>

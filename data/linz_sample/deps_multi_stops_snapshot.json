@@ -1,0 +1,841 @@
+[
+  {
+    "stop_id": "60500014",
+    "departures": [
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "22",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "38"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "Universität",
+        "countdown_minutes": "25",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "41"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "52",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "2",
+          "mi": "8"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "Universität",
+        "countdown_minutes": "55",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "2",
+          "mi": "11"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60500097",
+    "departures": [
+      {
+        "line": "N83",
+        "direction": "Neue Heimat",
+        "countdown_minutes": "7",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "23"
+        }
+      },
+      {
+        "line": "N83",
+        "direction": "Neue Heimat",
+        "countdown_minutes": "37",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "53"
+        }
+      },
+      {
+        "line": "N83",
+        "direction": "Neue Heimat",
+        "countdown_minutes": "67",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "2",
+          "mi": "23"
+        }
+      },
+      {
+        "line": "N83",
+        "direction": "Neue Heimat",
+        "countdown_minutes": "97",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "2",
+          "mi": "53"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60500296",
+    "departures": [
+      {
+        "line": "N82",
+        "direction": "Universität",
+        "countdown_minutes": "24",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "40"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "Universität",
+        "countdown_minutes": "54",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "2",
+          "mi": "10"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "Universität",
+        "countdown_minutes": "84",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "2",
+          "mi": "40"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "Universität",
+        "countdown_minutes": "114",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "3",
+          "mi": "10"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60500305",
+    "departures": [
+      {
+        "line": "11",
+        "direction": "Wegscheider Straße",
+        "countdown_minutes": "248",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "5",
+          "mi": "24"
+        }
+      },
+      {
+        "line": "11",
+        "direction": "Wegscheider Straße",
+        "countdown_minutes": "278",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "5",
+          "mi": "54"
+        }
+      },
+      {
+        "line": "11",
+        "direction": "Pichlinger See",
+        "countdown_minutes": "282",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "5",
+          "mi": "58"
+        }
+      },
+      {
+        "line": "11",
+        "direction": "Wegscheider Straße",
+        "countdown_minutes": "308",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "6",
+          "mi": "24"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60500312",
+    "departures": [
+      {
+        "line": "11",
+        "direction": "Wegscheider Straße",
+        "countdown_minutes": "246",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "5",
+          "mi": "22"
+        }
+      },
+      {
+        "line": "11",
+        "direction": "Wegscheider Straße",
+        "countdown_minutes": "276",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "5",
+          "mi": "52"
+        }
+      },
+      {
+        "line": "11",
+        "direction": "Wegscheider Straße",
+        "countdown_minutes": "306",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "6",
+          "mi": "22"
+        }
+      },
+      {
+        "line": "11",
+        "direction": "Wegscheider Straße",
+        "countdown_minutes": "336",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "6",
+          "mi": "52"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60500710",
+    "departures": [
+      {
+        "line": "N83",
+        "direction": "Hafenportal",
+        "countdown_minutes": "1",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "17"
+        }
+      },
+      {
+        "line": "N83",
+        "direction": "Neue Heimat",
+        "countdown_minutes": "8",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "24"
+        }
+      },
+      {
+        "line": "N83",
+        "direction": "Hafenportal",
+        "countdown_minutes": "31",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "47"
+        }
+      },
+      {
+        "line": "N83",
+        "direction": "Neue Heimat",
+        "countdown_minutes": "38",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "54"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60500920",
+    "departures": [
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "1",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "17"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "31",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "47"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "61",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "2",
+          "mi": "17"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "91",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "2",
+          "mi": "47"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60500921",
+    "departures": [
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "1",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "17"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "31",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "47"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "61",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "2",
+          "mi": "17"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "91",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "2",
+          "mi": "47"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60500960",
+    "departures": [
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "3",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "19"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "Universität",
+        "countdown_minutes": "15",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "31"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "33",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "49"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "Universität",
+        "countdown_minutes": "45",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "2",
+          "mi": "1"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60501160",
+    "departures": [
+      {
+        "line": "N82",
+        "direction": "Universität",
+        "countdown_minutes": "0",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "16"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "18",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "34"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "Universität",
+        "countdown_minutes": "30",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "46"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "48",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "2",
+          "mi": "4"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60501430",
+    "departures": [
+      {
+        "line": "N83",
+        "direction": "Hafenportal",
+        "countdown_minutes": "10",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "26"
+        }
+      },
+      {
+        "line": "N83",
+        "direction": "Neue Heimat",
+        "countdown_minutes": "28",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "44"
+        }
+      },
+      {
+        "line": "N83",
+        "direction": "Hafenportal",
+        "countdown_minutes": "40",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "56"
+        }
+      },
+      {
+        "line": "N83",
+        "direction": "Neue Heimat",
+        "countdown_minutes": "58",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "2",
+          "mi": "14"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60501700",
+    "departures": [
+      {
+        "line": "4",
+        "direction": "Schloss Traun",
+        "countdown_minutes": "228",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "5",
+          "mi": "5"
+        }
+      },
+      {
+        "line": "4",
+        "direction": "Schloss Traun",
+        "countdown_minutes": "258",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "5",
+          "mi": "35"
+        }
+      },
+      {
+        "line": "4",
+        "direction": "Schloss Traun",
+        "countdown_minutes": "279",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "5",
+          "mi": "56"
+        }
+      },
+      {
+        "line": "3",
+        "direction": "Hauptbahnhof",
+        "countdown_minutes": "294",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "6",
+          "mi": "11"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60501720",
+    "departures": [
+      {
+        "line": "N83",
+        "direction": "Neue Heimat",
+        "countdown_minutes": "19",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "36"
+        }
+      },
+      {
+        "line": "N83",
+        "direction": "Hafenportal",
+        "countdown_minutes": "20",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "37"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "Universität",
+        "countdown_minutes": "24",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "41"
+        }
+      },
+      {
+        "line": "N82",
+        "direction": "solarCity",
+        "countdown_minutes": "25",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "1",
+          "mi": "42"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60501810",
+    "departures": [
+      {
+        "line": "1",
+        "direction": "Universität",
+        "countdown_minutes": "195",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "4",
+          "mi": "32"
+        }
+      },
+      {
+        "line": "1",
+        "direction": "Universität",
+        "countdown_minutes": "230",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "5",
+          "mi": "7"
+        }
+      },
+      {
+        "line": "1",
+        "direction": "Universität",
+        "countdown_minutes": "260",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "5",
+          "mi": "37"
+        }
+      },
+      {
+        "line": "12",
+        "direction": "Karlhof",
+        "countdown_minutes": "285",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "6",
+          "mi": "2"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60502210",
+    "departures": [
+      {
+        "line": "12",
+        "direction": "Karlhof",
+        "countdown_minutes": "286",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "6",
+          "mi": "3"
+        }
+      },
+      {
+        "line": "12",
+        "direction": "Auwiesen",
+        "countdown_minutes": "303",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "6",
+          "mi": "20"
+        }
+      },
+      {
+        "line": "12",
+        "direction": "Karlhof",
+        "countdown_minutes": "316",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "6",
+          "mi": "33"
+        }
+      },
+      {
+        "line": "12",
+        "direction": "Auwiesen",
+        "countdown_minutes": "334",
+        "time": {
+          "y": "2026",
+          "m": "5",
+          "d": "1",
+          "h": "6",
+          "mi": "51"
+        }
+      }
+    ]
+  },
+  {
+    "stop_id": "60508077",
+    "departures": [],
+    "error": [
+      {
+        "name": "code",
+        "value": "-4050"
+      },
+      {
+        "name": "error",
+        "value": "no serving lines found"
+      },
+      {
+        "name": "type",
+        "value": ""
+      },
+      {
+        "name": "module",
+        "value": "BROKER"
+      }
+    ]
+  },
+  {
+    "stop_id": "60508079",
+    "departures": [],
+    "error": [
+      {
+        "name": "code",
+        "value": "-4050"
+      },
+      {
+        "name": "error",
+        "value": "no serving lines found"
+      },
+      {
+        "name": "type",
+        "value": ""
+      },
+      {
+        "name": "module",
+        "value": "BROKER"
+      }
+    ]
+  }
+]

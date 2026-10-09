@@ -1,0 +1,98 @@
+[
+  {
+    "line": "N82",
+    "direction": "Universit\u00e4t",
+    "countdown_minutes": "9",
+    "departs_at": {
+      "year": "2026",
+      "month": "5",
+      "day": "1",
+      "hour": "1",
+      "minute": "16"
+    }
+  },
+  {
+    "line": "N82",
+    "direction": "solarCity",
+    "countdown_minutes": "27",
+    "departs_at": {
+      "year": "2026",
+      "month": "5",
+      "day": "1",
+      "hour": "1",
+      "minute": "34"
+    }
+  },
+  {
+    "line": "N82",
+    "direction": "Universit\u00e4t",
+    "countdown_minutes": "39",
+    "departs_at": {
+      "year": "2026",
+      "month": "5",
+      "day": "1",
+      "hour": "1",
+      "minute": "46"
+    }
+  },
+  {
+    "line": "N82",
+    "direction": "solarCity",
+    "countdown_minutes": "57",
+    "departs_at": {
+      "year": "2026",
+      "month": "5",
+      "day": "1",
+      "hour": "2",
+      "minute": "4"
+    }
+  },
+  {
+    "line": "N82",
+    "direction": "Universit\u00e4t",
+    "countdown_minutes": "69",
+    "departs_at": {
+      "year": "2026",
+      "month": "5",
+      "day": "1",
+      "hour": "2",
+      "minute": "16"
+    }
+  },
+  {
+    "line": "N82",
+    "direction": "solarCity",
+    "countdown_minutes": "87",
+    "departs_at": {
+      "year": "2026",
+      "month": "5",
+      "day": "1",
+      "hour": "2",
+      "minute": "34"
+    }
+  },
+  {
+    "line": "N82",
+    "direction": "Universit\u00e4t",
+    "countdown_minutes": "99",
+    "departs_at": {
+      "year": "2026",
+      "month": "5",
+      "day": "1",
+      "hour": "2",
+      "minute": "46"
+    }
+  },
+  {
+    "line": "N82",
+    "direction": "solarCity",
+    "countdown_minutes": "117",
+    "departs_at": {
+      "year": "2026",
+      "month": "5",
+      "day": "1",
+      "hour": "3",
+      "minute": "4"
+    }
+  }
+]

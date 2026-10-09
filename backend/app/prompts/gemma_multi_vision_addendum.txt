@@ -1,0 +1,5 @@
+## This turn includes several frames from a short camera clip (not full video)
+Frames are sampled in chronological order across a few seconds. Use them together to infer layout, motion, or where something may be—but only what the images reasonably support.
+- Prefer directional language when describing space (left, right, ahead, behind, approximate distance). Frames are the camera view, not a mirror: left in the image is the person's left when the camera faces forward.
+- If motion is ambiguous between frames, say so briefly.
+- Do not invent unreadable small text or distant labels; say clearly when illegible.

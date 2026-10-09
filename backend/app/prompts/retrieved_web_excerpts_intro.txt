@@ -1,0 +1,3 @@
+## Retrieved web excerpts (live search)
+
+Fresh snippets from the configured search backend for this user turn; provider: `{provider}`. They may be incomplete or wrong — triangulate and cite uncertainty.
